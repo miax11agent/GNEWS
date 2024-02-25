@@ -1,0 +1,8 @@
+#Qué versión e imagen de docker
+FROM python:3.11.8-slim
+
+COPY . /app
+WORKDIR /app
+
+# Ejecutar la aplicación, en nuestro caso este shell script
+CMD ["python", "-m", "http.server"]

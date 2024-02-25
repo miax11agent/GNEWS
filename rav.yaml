@@ -1,0 +1,24 @@
+scripts:
+  runserver: uvicorn src.main:app --reload
+  installs: venv/bin/python - m pip install -r requirements.txt
+  test: pytest src/tests.py
+
+  #Contendor de prueba vacio
+  empty-build: docker build -f Dockerfile.empty -t empty-py .
+  empty-shell: docker exec -it empty-py /bin/bash
+  empty-run: docker run -p 8001:8000 --rm --name empty_py -it empty-py
+
+  #Contendor local para la app 
+  serverless-build: docker build -f Dockerfile -t serverless-py .
+  serverless-run: docker run --env-file .env-prod -p 8000:8000 --rm --name serverless_py -it serverless-py
+  serverless-container-stage: docker run -e MODE=stage --env-file .env-prod -p 8000:8000 --rm --name serverless_py -it serverless-py
+  serverless-container-prod: docker run -e MODE=PROD --env-file .env-prod -p 8000:8000 --rm --name serverless_py -it serverless-py
+  
+  build-run:
+    - rav run serverless-build
+    - rav run serverless-run
+
+  push: docker push
+
+
+  RUN-PEP: docker run -p 8000:8000 --name serverless_py uvicorn --rm app:app --host 0.0.0.0 --port 8000

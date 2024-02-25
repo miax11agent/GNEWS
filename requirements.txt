@@ -1,0 +1,7 @@
+FastAPI
+uvicorn
+gunicorn
+python-decouple
+rav
+pytest
+httpx
